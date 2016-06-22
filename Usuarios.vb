@@ -39,6 +39,7 @@ Public Class Usuarios
     End Sub
 
     Public Function OBTENER() As DataTable
+
         Return TABLA
 
     End Function
