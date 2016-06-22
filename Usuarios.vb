@@ -20,7 +20,10 @@ Public Class Usuarios
         VEC(0) = TABLA.Columns("mi_usuario")
         TABLA.PrimaryKey = VEC
     End Sub
-   
+
+    Public Sub New(ByVal miUsuario As Int32)
+    End Sub
+
     Public Sub VALIDAR()
         If FrmIdentificarse.TBEmail.Text = FILA("email") And FrmIdentificarse.TBPalabra.Text = FILA("palabra") Then
             FrmVerFotos.Show()
@@ -29,13 +32,13 @@ Public Class Usuarios
     End Sub
     Public Sub AVANZAR()
         Dim contar As Integer
-        
-                FrmVerFotos.LNombre.Text = TABLA.Rows(contar)("nombre")
-                FrmVerFotos.PBFoto.Load("FOTOS/" & TABLA.Rows(contar)("foto"))
 
-            
+        FrmVerFotos.LNombre.Text = TABLA.Rows(contar)("nombre")
+        FrmVerFotos.PBFoto.Load("FOTOS/" & TABLA.Rows(contar)("foto"))
+
+
         contar = contar + 1
-     
+
     End Sub
 
     Public Function OBTENER() As DataTable

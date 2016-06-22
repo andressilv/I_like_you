@@ -8,24 +8,30 @@
 
     Private Sub FrmVerFotos_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         TUUSUARIO = objetousuario.OBTENER
-        MessageBox.Show(TUUSUARIO.Rows(0)("mi_usuario").ToString())
-        MessageBox.Show(TUUSUARIO.Rows(0)("sexo").ToString())
+        MessageBox.Show("mi usuario: " & TUUSUARIO.Rows(0)("mi_usuario").ToString())
+        MessageBox.Show("sexo: " & TUUSUARIO.Rows(0)("sexo").ToString())
 
-        For i = 1 To TUUSUARIO.Rows.Count
-            MessageBox.Show(TUUSUARIO.Rows(i)("nombre"))
+        For i = 0 To TUUSUARIO.Rows.Count - 1
+            MessageBox.Show("nombre de cada uno: " & i.ToString() & TUUSUARIO.Rows(i)("nombre"))
         Next
 
-        Dim FILA() As DataRow = TUUSUARIO.Select("mujeres='SI'")
+        Dim FILA() As DataRow = TUUSUARIO.Select("mujeres=" & "'" & TUUSUARIO.Rows(0)("sexo").ToString() & "'")
 
         If (FILA.Length > 0) Then
-            MessageBox.Show("filas: " & FILA.Length.ToString())
+            MessageBox.Show("filas(deberia ser  5): " & FILA.Length.ToString())
         End If
 
         ULTIMO = TUUSUARIO.Rows.Count - 1
+        MessageBox.Show("ultimo: " & ULTIMO.ToString())
         LNombre.Text = TUUSUARIO.Rows(contar)("nombre")
         PBFoto.Load("FOTOS/" & TUUSUARIO.Rows(contar)("foto"))
     End Sub
 
+    Private Sub mostrarTodos(ByVal usuario As Usuarios)
+
+
+
+    End Sub
 
     Private Sub BAvanzar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BAvanzar.Click
         contar = contar + 1
