@@ -8,7 +8,14 @@
 
     Private Sub FrmVerFotos_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         TUUSUARIO = objetousuario.OBTENER
-        Dim FILA() As DataRow = TUUSUARIO.Select("mujeres='NO'")
+        MessageBox.Show(TUUSUARIO.Rows(0)("mi_usuario").ToString())
+        MessageBox.Show(TUUSUARIO.Rows(0)("sexo").ToString())
+
+        For i = 1 To TUUSUARIO.Rows.Count
+            MessageBox.Show(TUUSUARIO.Rows(i)("nombre"))
+        Next
+
+        Dim FILA() As DataRow = TUUSUARIO.Select("mujeres='SI'")
 
         If (FILA.Length > 0) Then
             MessageBox.Show("filas: " & FILA.Length.ToString())
