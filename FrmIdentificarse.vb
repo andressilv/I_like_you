@@ -4,8 +4,7 @@
 
     Private Sub BIniciarSesion_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BIniciarSesion.Click
 
-        OBJUSUARIO.VALIDAR()
-
+        OBJUSUARIO.VALIDAR(TBPalabra.Text, TBEmail.Text)
     End Sub
 
     Private Sub FrmIdentificarse_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

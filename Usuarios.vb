@@ -21,14 +21,28 @@ Public Class Usuarios
         VEC(0) = TABLA.Columns("mi_usuario")
         TABLA.PrimaryKey = VEC
     End Sub
+    
 
 
-    Public Sub VALIDAR()
-        If FrmIdentificarse.TBEmail.Text = FILA("email") And FrmIdentificarse.TBPalabra.Text = FILA("palabra") Then
-            FrmVerFotos.Show()
-        End If
+    Public Sub VALIDAR(ByVal PALABRA As String, ByVal EMAIL As String)
 
+        Dim CONTAR = 0
+
+
+        For Each BUSCAR In TABLA.Rows
+            If FrmIdentificarse.TBPalabra.Text = TABLA.Rows(CONTAR)("palabra") And FrmIdentificarse.TBEmail.Text = TABLA.Rows(CONTAR)("email") Then
+
+                FILA = TABLA.Rows(CONTAR)
+                INGRESO = CONTAR
+                FrmVerFotos.Show()
+
+                Exit For
+            Else
+                CONTAR = CONTAR + 1
+            End If
+        Next
     End Sub
+
     Public Sub AVANZAR()
         Dim contar As Integer
 
@@ -48,8 +62,8 @@ Public Class Usuarios
 
     Public Function obtenerFiltrada(ByVal tabla As DataTable) As DataTable
 
-        Dim interes1 As String = tabla.Rows(0)("mujeres").ToString()
-        Dim interes2 As String = tabla.Rows(0)("hombres").ToString()
+        Dim interes1 As String = tabla.Rows(INGRESO)("mujeres").ToString()
+        Dim interes2 As String = tabla.Rows(INGRESO)("hombres").ToString()
 
         Dim tablaFiltrada As DataTable = New DataTable()
         tablaFiltrada.Columns.Add("nombre")
