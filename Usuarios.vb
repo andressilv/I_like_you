@@ -9,7 +9,8 @@ Public Class Usuarios
     Dim ADAPTADOR As New OleDbDataAdapter(COMANDO)
     Dim TABLA As New DataTable
     Dim FILA As DataRow
-   
+    Dim filanueva As DataRow
+
     Public Sub New()
         COMANDO.Connection = CONECTOR
         COMANDO.CommandType = CommandType.TableDirect
@@ -21,8 +22,6 @@ Public Class Usuarios
         TABLA.PrimaryKey = VEC
     End Sub
 
-    Public Sub New(ByVal miUsuario As Int32)
-    End Sub
 
     Public Sub VALIDAR()
         If FrmIdentificarse.TBEmail.Text = FILA("email") And FrmIdentificarse.TBPalabra.Text = FILA("palabra") Then
@@ -46,10 +45,56 @@ Public Class Usuarios
         Return TABLA
 
     End Function
+
+    Public Function obtenerFiltrada(ByVal tabla As DataTable) As DataTable
+
+        Dim interes1 As String = tabla.Rows(0)("mujeres").ToString()
+        Dim interes2 As String = tabla.Rows(0)("hombres").ToString()
+
+        Dim tablaFiltrada As DataTable = New DataTable()
+        tablaFiltrada.Columns.Add("nombre")
+        tablaFiltrada.Columns.Add("foto")
+        Dim opcionF As Integer
+        Dim opcionM As Integer
+
+        For i = 1 To tabla.Rows.Count - 1
+
+            If interes1.CompareTo("SI") = 0 Then
+                opcionF = tabla.Rows(i)("sexo").ToString().CompareTo("F")
+            Else
+                opcionF = -1
+            End If
+
+
+            If interes2.CompareTo("SI") = 0 Then
+                opcionM = tabla.Rows(i)("sexo").ToString().CompareTo("M") 'debería dar igual a 0
+            Else
+                opcionM = -1
+            End If
+
+
+            If (opcionF = 0) Then
+                filanueva = tablaFiltrada.NewRow
+                filanueva("nombre") = tabla.Rows(i)("nombre").ToString()
+                filanueva("foto") = tabla.Rows(i)("foto").ToString()
+                tablaFiltrada.Rows.Add(filanueva)
+            End If
+            If (opcionM = 0) Then
+                filanueva = tablaFiltrada.NewRow
+                filanueva("nombre") = tabla.Rows(i)("nombre").ToString()
+                filanueva("foto") = tabla.Rows(i)("foto").ToString()
+                tablaFiltrada.Rows.Add(filanueva)
+            End If
+
+
+        Next
+        Return tablaFiltrada
+    End Function
+
     Public Sub GRABAR()
 
         FILA = TABLA.NewRow
-        TABLA.Rows.Add(FILA)
+
 
         FILA("nombre") = FrmNuevoUsuario.TBNombre.Text
         FILA("sexo") = FrmNuevoUsuario.CBSexo.SelectedIndex
@@ -58,6 +103,8 @@ Public Class Usuarios
         FILA("hombres") = FrmNuevoUsuario.CHHombres.Checked = True
         FILA("mujeres") = FrmNuevoUsuario.CHMujeres.Checked = True
         FILA("foto") = FrmNuevoUsuario.TBFoto.Text
+
+        TABLA.Rows.Add(FILA)
 
     End Sub
 End Class

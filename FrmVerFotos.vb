@@ -2,44 +2,39 @@
     Dim objetousuario As New Usuarios
     Dim TUUSUARIO As New DataTable
     Dim contar As Integer = 0
-    Dim ULTIMO As Integer
-    Dim OBFILA As DataRow
+    Dim fila() As DataRow
+    Dim tablaFiltrada As DataTable
 
 
     Private Sub FrmVerFotos_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        'obtiene toda la tabla. el de indice 0 es nuestro usuario
         TUUSUARIO = objetousuario.OBTENER
-        MessageBox.Show("mi usuario: " & TUUSUARIO.Rows(0)("mi_usuario").ToString())
-        MessageBox.Show("sexo: " & TUUSUARIO.Rows(0)("sexo").ToString())
-
-        For i = 0 To TUUSUARIO.Rows.Count - 1
-            MessageBox.Show("nombre de cada uno: " & i.ToString() & TUUSUARIO.Rows(i)("nombre"))
-        Next
-
-        Dim FILA() As DataRow = TUUSUARIO.Select("mujeres=" & "'" & TUUSUARIO.Rows(0)("sexo").ToString() & "'")
-
-        If (FILA.Length > 0) Then
-            MessageBox.Show("filas(deberia ser  5): " & FILA.Length.ToString())
-        End If
-
-        ULTIMO = TUUSUARIO.Rows.Count - 1
-        MessageBox.Show("ultimo: " & ULTIMO.ToString())
-        LNombre.Text = TUUSUARIO.Rows(contar)("nombre")
-        PBFoto.Load("FOTOS/" & TUUSUARIO.Rows(contar)("foto"))
+        mostrarUsuario(TUUSUARIO.Rows(0)("nombre"), TUUSUARIO.Rows(0)("foto"))
     End Sub
 
-    Private Sub mostrarTodos(ByVal usuario As Usuarios)
-
-
-
+    Private Sub mostrarUsuario(ByVal nombre As String, ByVal foto As String)
+        LNombre.Text = nombre
+        PBFoto.Load("FOTOS/" & foto)
     End Sub
+
 
     Private Sub BAvanzar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BAvanzar.Click
-        contar = contar + 1
-        If contar > ULTIMO Then
+        tablaFiltrada = objetousuario.obtenerFiltrada(TUUSUARIO)
+
+        If contar > tablaFiltrada.Rows.Count - 1 Then
             contar = 0
         End If
-        LNombre.Text = TUUSUARIO.Rows(contar)("nombre")
-        PBFoto.Load("FOTOS/" & TUUSUARIO.Rows(contar)("foto"))
+        mostrarUsuario(tablaFiltrada(contar)("nombre"), tablaFiltrada(contar)("foto"))
+        contar = contar + 1
     End Sub
-    
+
+    Private Function obtenerListaFiltrada()
+        'fila = TUUSUARIO.Select("mujeres=" & "'" & TUUSUARIO.Rows(0)("sexo").ToString() & "'")
+        fila = TUUSUARIO.Select("mujeres='M'")
+        If (fila.Length > 0) Then
+            MessageBox.Show("filas(deberia ser  5): " & fila.Length.ToString())
+        End If
+        Return fila
+    End Function
+
 End Class
