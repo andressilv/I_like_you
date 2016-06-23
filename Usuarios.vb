@@ -8,9 +8,9 @@ Public Class Usuarios
     Dim COMANDO As New OleDbCommand
     Dim ADAPTADOR As New OleDbDataAdapter(COMANDO)
     Dim TABLA As New DataTable
-    Dim FILA As DataRow
+    Dim FILAs As DataRow
     Dim filanueva As DataRow
-
+    Dim COMENTARIO As Me_Gustan
     Public Sub New()
         COMANDO.Connection = CONECTOR
         COMANDO.CommandType = CommandType.TableDirect
@@ -21,7 +21,7 @@ Public Class Usuarios
         VEC(0) = TABLA.Columns("mi_usuario")
         TABLA.PrimaryKey = VEC
     End Sub
-    
+
 
 
     Public Sub VALIDAR(ByVal PALABRA As String, ByVal EMAIL As String)
@@ -32,14 +32,16 @@ Public Class Usuarios
         For Each BUSCAR In TABLA.Rows
             If FrmIdentificarse.TBPalabra.Text = TABLA.Rows(CONTAR)("palabra") And FrmIdentificarse.TBEmail.Text = TABLA.Rows(CONTAR)("email") Then
 
-                FILA = TABLA.Rows(CONTAR)
+                FILAs = TABLA.Rows(CONTAR)
                 INGRESO = CONTAR
                 FrmVerFotos.Show()
+                COMENTARIO.MEGUSTAESTE()
 
                 Exit For
             Else
                 CONTAR = CONTAR + 1
             End If
+
         Next
     End Sub
 
@@ -49,7 +51,7 @@ Public Class Usuarios
         FrmVerFotos.LNombre.Text = TABLA.Rows(contar)("nombre")
         FrmVerFotos.PBFoto.Load("FOTOS/" & TABLA.Rows(contar)("foto"))
 
-
+        MEGUSTA = contar
         contar = contar + 1
 
     End Sub
@@ -105,20 +107,44 @@ Public Class Usuarios
         Return tablaFiltrada
     End Function
 
-    Public Sub GRABAR()
+    Public Sub GRABAR(ByVal NOMBRE As String, ByVal EMAIL As String, ByVal PALABRA As String, ByVal SEXO As String, ByVal HOMBRES As String, ByVal MUJERES As String, ByVal FOTO As String)
+        Dim filas As DataRow
 
-        FILA = TABLA.NewRow
+
+        Dim auxsexo As String
+        Dim corroborarnumerousuario As Long
+        filas = TABLA.NewRow
+        filas("mi_usuario") = 0
+
+        corroborarnumerousuario = FILAs("mi_usuario")
+
+        filas("nombre") = NOMBRE
+
+        FILAs("email") = EMAIL
+
+        FILAs("palabra") = PALABRA
+        If SEXO = "FEMENINO" Then
+            auxsexo = "F"
+        Else
+            auxsexo = "M"
+
+        End If
+
+        FILAs("sexo") = AuxSexo
+        FILAs("foto") = FrmNuevoUsuario.TBFoto.Text
 
 
-        FILA("nombre") = FrmNuevoUsuario.TBNombre.Text
-        FILA("sexo") = FrmNuevoUsuario.CBSexo.SelectedIndex
-        FILA("email") = FrmNuevoUsuario.TBEmail.Text
-        FILA("palabra") = FrmNuevoUsuario.TBPalabra.Text
-        FILA("hombres") = FrmNuevoUsuario.CHHombres.Checked = True
-        FILA("mujeres") = FrmNuevoUsuario.CHMujeres.Checked = True
-        FILA("foto") = FrmNuevoUsuario.TBFoto.Text
+        FILAs("mujeres") = MUJERES
+        FILAs("hombres") = HOMBRES
+        TABLA.Rows.Add(FILAs)
 
-        TABLA.Rows.Add(FILA)
 
+        Actualizar()
+
+    End Sub
+
+    Private Sub Actualizar()
+        Dim MAGIGO As New OleDbCommandBuilder(ADAPTADOR)
+        ADAPTADOR.Update(TABLA)
     End Sub
 End Class

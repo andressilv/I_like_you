@@ -6,6 +6,7 @@ Public Class FrmVerFotos
     Dim contar As Integer
     Dim fila() As DataRow
     Dim tablaFiltrada As DataTable
+    Dim objetomegusta As Me_Gustan
 
 
     Private Sub FrmVerFotos_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -22,18 +23,14 @@ Public Class FrmVerFotos
 
     Private Sub BAvanzar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BAvanzar.Click
         tablaFiltrada = objetousuario.obtenerFiltrada(TUUSUARIO)
-
-
-
-
-
-
-
+        contar = contar + 1
         If contar > tablaFiltrada.Rows.Count - 1 Then
             contar = 0
         End If
+    
         mostrarUsuario(tablaFiltrada(contar)("nombre"), tablaFiltrada(contar)("foto"))
-        contar = contar + 1
+
+
     End Sub
 
     Private Function obtenerListaFiltrada()
@@ -44,5 +41,11 @@ Public Class FrmVerFotos
         End If
         Return fila
     End Function
+    Private Sub MEGUSTAFOTO()
+        BMeGustaSiNo.Image = IL.Images("CORAZON_ROJO.png")
+    End Sub
+    Private Sub BMeGustaSiNo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BMeGustaSiNo.Click
+        MEGUSTAFOTO()
 
+    End Sub
 End Class

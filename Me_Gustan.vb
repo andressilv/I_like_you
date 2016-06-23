@@ -7,6 +7,7 @@ Public Class Me_Gustan
     Dim COMANDO As New OleDbCommand
     Dim ADAPTADOR As New OleDbDataAdapter(COMANDO)
     Dim TABLA As New DataTable
+    Dim COMENTAR As DataRow
 
 
 
@@ -21,5 +22,14 @@ Public Class Me_Gustan
         VEC(1) = TABLA.Columns("el_usuario")
         TABLA.PrimaryKey = VEC
     End Sub
- 
+    Public Sub MEGUSTAESTE()
+  
+
+
+
+
+
+    End Sub
+
+
 End Class
