@@ -106,7 +106,6 @@ Partial Class FrmNuevoUsuario
         Me.TBPalabra.Location = New System.Drawing.Point(136, 176)
         Me.TBPalabra.MaxLength = 50
         Me.TBPalabra.Name = "TBPalabra"
-        Me.TBPalabra.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.TBPalabra.Size = New System.Drawing.Size(265, 20)
         Me.TBPalabra.TabIndex = 7
         '
@@ -150,6 +149,7 @@ Partial Class FrmNuevoUsuario
         '
         'TBFoto
         '
+        Me.TBFoto.Enabled = False
         Me.TBFoto.Location = New System.Drawing.Point(136, 271)
         Me.TBFoto.MaxLength = 50
         Me.TBFoto.Name = "TBFoto"

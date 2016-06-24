@@ -35,7 +35,7 @@ Public Class Usuarios
                 FILAs = TABLA.Rows(CONTAR)
                 INGRESO = CONTAR
                 FrmVerFotos.Show()
-                COMENTARIO.MEGUSTAESTE()
+                'COMENTARIO.MEGUSTAESTE()
 
                 Exit For
             Else
@@ -131,7 +131,8 @@ Public Class Usuarios
         End If
 
         FILAs("sexo") = AuxSexo
-        FILAs("foto") = FrmNuevoUsuario.TBFoto.Text
+        filas("foto") = FOTO
+
 
 
         FILAs("mujeres") = MUJERES
